@@ -6,14 +6,14 @@ conn = psycopg2.connect(
    user="postgres",
    password="Vera1234?"
 )
-# use list, add, delete
+# use list, insert, delete
 def read_contacts(C):
     cur = C.cursor()
     cur.execute("SELECT id, first_name, last_name, title, organization;")
     rows = cur.fetchall()
     cur.close()
     return rows
-def add_contact(C, id, first_name, last_name, title, organization):
+def insert_contacts(C, id, first_name, last_name, title, organization):
     cur = C.cursor()
     cur.execute(f"INSERT INTO contacts (id, first_name, last_name, title, organization) VALUES ('{id}', '{first_name}','{last_name}','{title}','{organization}');")
     cur.close()
@@ -36,10 +36,10 @@ while True: ## REPL - Read Execute Program Loop
         last_name= input("  last_name: ")
         title= input("  last_name: ")
         organization= input("  last_name: ")
-        add_contact(conn, id, first_name, last_name, title, organization)
+        insert_contacts(conn, id, first_name, last_name, title, organization)
     elif cmd == "delete":
         id = input("  ID: ")
-        delete_word(conn, id)
+        delete_id(conn, id)
     elif cmd == "quit":
-        save_contact(conn)
+        save_contacts(conn)
         exit()
