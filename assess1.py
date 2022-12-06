@@ -1,8 +1,8 @@
-mport psycopg2
+import psycopg2
 conn = psycopg2.connect(
    host="localhost",
    port=5432,
-   database="assessmentdb",
+   database="assessmentdb.sql",
    user="postgres",
    password="Vera1234?"
 )
@@ -13,15 +13,15 @@ def read_contacts(C):
     rows = cur.fetchall()
     cur.close()
     return rows
-def add_word(C, id, first_name, last_name, title, organization):
+def add_contact(C, id, first_name, last_name, title, organization):
     cur = C.cursor()
-    cur.execute(f"INSERT INTO contacts (id, first_name, last_name, title, organization) VALUES ('{word}', '{translation}');")
+    cur.execute(f"INSERT INTO contacts (id, first_name, last_name, title, organization) VALUES ('{id}', '{first_name}','{last_name}','{title}','{organization}');")
     cur.close()
-def delete_word(C, ID):
+def delete_id(C, id):
     cur = C.cursor()
-    cur.execute(f"DELETE FROM dictionary WHERE id = '{ID}';")
+    cur.execute(f"DELETE FROM contacts WHERE id = '{id}';")
     cur.close()
-def save_dict(C):
+def save_contacts(C):
     cur = C.cursor()
     cur.execute("COMMIT;")
     cur.close()
@@ -29,14 +29,17 @@ def save_dict(C):
 while True: ## REPL - Read Execute Program Loop
     cmd = input("Command: ")
     if cmd == "list":
-        print(read_dict(conn))
-    elif cmd == "add":
-        name = input("  Word: ")
-        phone = input("  Translation: ")
-        add_word(conn, name, phone)
+        print(read_contacts(conn))
+    elif cmd == "insert":
+        id =input("  id: ")
+        first_name = input("  first_name: ")
+        last_name= input("  last_name: ")
+        title= input("  last_name: ")
+        organization= input("  last_name: ")
+        add_contact(conn, id, first_name, last_name, title, organization)
     elif cmd == "delete":
-        ID = input("  ID: ")
-        delete_word(conn, ID)
+        id = input("  ID: ")
+        delete_word(conn, id)
     elif cmd == "quit":
-        save_dict(conn)
+        save_contact(conn)
         exit()
